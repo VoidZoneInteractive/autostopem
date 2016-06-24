@@ -1,0 +1,7 @@
+portal.name: Autostopem.pl
+
+trip.travel.date.start: Data wyjazdu
+trip.travel.location.start: Wybierz miejsce początkowe
+trip.travel.location.end: Wybierz miejsce docelowe
+
+trip.travel.message.not_found: Nie znaleziono wyników dla frazy "%term%"

@@ -1,0 +1,11 @@
+city_autocomplete:
+    path:     /city/{term}
+    defaults: { _controller: "LocationBundle:City:autocomplete" }
+    methods:  GET
+    options:
+        expose: true
+
+city_show:
+    path:     /city/{id}/show
+    defaults: { _controller: "LocationBundle:City:show" }
+    methods:  GET

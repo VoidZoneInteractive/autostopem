@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/view/css/default.css') }}" />
+    {#<link href="//fonts.googleapis.com/css?family=Alegreya+Sans+SC:500|Marcellus+SC|Just+Me+Again+Down+Here|Great+Vibes|Clicker+Script|Kaushan+Script&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">#}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/view/js/main.js') }}"></script>
+    <script src="{{ asset('bundles/view/js/autocomplete.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+    {% include 'ViewBundle:Default:navigation.html.twig' %}
+
+    <div class="container" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-location-arrow is_white" data-icon="fa-location-arrow"></i>
+                    </span>
+                    <div class="form-group off-label-floating is-empty has-info">
+                        {#<label id="as-travel_start_location_label" class="control-label" for="as-travel_start_location_input">{{ 'trip.travel.location.start'|trans }}</label>#}
+                        <input id="as-travel_start_location_input" type="text" class="form-control" data-target="location-start" placeholder="{{ 'trip.travel.location.start'|trans }}" />
+                        <input type="hidden" name="location_start" id="location-start" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-map-marker is_white" data-icon="fa-map-marker"></i>
+                    </span>
+                    <div class="form-group off-label-floating is-empty has-info">
+                        {#<label id="as-travel_end_location_label" class="control-label" for="as-travel_end_location_input">{{ 'trip.travel.location.end'|trans }}</label>#}
+                        <input id="as-travel_end_location_input" type="text" class="form-control" data-target="location-end" placeholder="{{ 'trip.travel.location.end'|trans }}" />
+                        <input type="hidden" name="location_end" id="location-end" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar is_white"></i>
+                    </span>
+                    <div class="form-group off-label-floating is-empty has-info">
+                        {#<label id="as-travel_start_date_label" class="control-label">{{ 'trip.travel.date.start'|trans }}</label>#}
+                        <input id="as-travel_start_date_input" type="text" class="datepicker form-control" placeholder="{{ 'trip.travel.date.start'|trans }}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
