@@ -15,18 +15,16 @@ class CityRepository extends \Doctrine\ORM\EntityRepository
      */
     public function findCitiesByNameForAutocomplete($term, $locale)
     {
-        $query = $this->createQueryBuilder('c')
-            ->select('c.id AS id, t.translation AS label')
-            ->join('c.i18n', 'i')
-            ->join('i.translations', 't')
-            ->join('t.locale', 'l')
-            ->where('t.translation LIKE :name')
-            ->andWhere('l.locale = :locale')
-            ->setParameters(array(
-                'name' => '%' . $term . '%',
-                'locale' => $locale,
-            ));
 
-        return $query->getQuery()->getResult(Query::HYDRATE_ARRAY);
+        $queryBuilder = $this->createQueryBuilder('c');
+        $query = $queryBuilder->select('c.id, c.name, c.latitude, c.longitude')
+            ->where('c.name LIKE :name')
+            ->setParameter('name', '%' . $term . '%')
+            ->getQuery();
+
+        $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+        $query->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale);
+
+        return $query->getResult();
     }
 }

@@ -1,3 +1,13 @@
+city_insert:
+    path:     /city/insert
+    defaults: { _controller: "LocationBundle:City:insert" }
+    methods:  GET
+
+city_new:
+    path:     /city/new
+    defaults: { _controller: "LocationBundle:City:new" }
+    methods:  GET
+
 city_autocomplete:
     path:     /city/{term}
     defaults: { _controller: "LocationBundle:City:autocomplete" }

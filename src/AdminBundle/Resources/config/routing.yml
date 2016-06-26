@@ -1,0 +1,7 @@
+new:
+    path:     /city/new
+    defaults: { _controller: AdminBundle:City:new }
+
+create:
+    path:     /city/create
+    defaults: { _controller: AdminBundle:City:create }

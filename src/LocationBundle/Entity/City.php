@@ -3,15 +3,20 @@
 namespace LocationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 
 /**
  * City
  *
  * @ORM\Table(name="location_city")
  * @ORM\Entity(repositoryClass="LocationBundle\Repository\CityRepository")
+ * @Gedmo\TranslationEntity(class="CityTranslation")
  */
-class City
+class City implements Translatable
 {
+
     /**
      * @var int
      *
@@ -35,19 +40,27 @@ class City
      */
     private $longitude;
 
-    /**
-     * @var int
-     *
-     * @ORM\OneToOne(targetEntity="\TranslationBundle\Entity\I18n")
-     * @ORM\JoinColumn(name="i18n", referencedColumnName="id")
-     */
-    private $i18n;
 
+    /**
+     * @Gedmo\Translatable
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @Gedmo\Locale
+     */
+    private $locale;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Gedmo\Translatable\Entity\Translation", mappedBy="object", cascade={"persist", "remove"})
+     */
+    protected $translations;
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -103,26 +116,73 @@ class City
     }
 
     /**
-     * Set i18n
+     * Set name
      *
-     * @param \TranslationBundle\Entity\I18n $i18n
+     * @param string $name
      *
-     * @return City
+     * @return CityTranslation
      */
-    public function setI18n(\TranslationBundle\Entity\I18n $i18n = null)
+    public function setName($name)
     {
-        $this->i18n = $i18n;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get i18n
+     * Get name
      *
-     * @return \TranslationBundle\Entity\I18n
+     * @return string
      */
-    public function getI18n()
+    public function getName()
     {
-        return $this->i18n;
+        return $this->name;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add translation
+     *
+     * @param CityTranslation $translation
+     *
+     * @return City
+     */
+    public function addTranslation(CityTranslation $translation)
+    {
+        $this->translations[] = $translation;
+
+        return $this;
+    }
+
+    /**
+     * Remove translation
+     *
+     * @param CityTranslation $translation
+     */
+    public function removeTranslation(CityTranslation $translation)
+    {
+        $this->translations->removeElement($translation);
+    }
+
+    /**
+     * Get translations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }

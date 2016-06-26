@@ -66,7 +66,8 @@ function parseResults(data) {
         data.push('divider');
     }
     data.push('Ostatnio wyszukiwane elementy:');
-    data.push({id: 10, label: 'Świebodzin'});
+    // TODO: Provide real data
+    data.push({id: 10, name: 'Świebodzin'});
 
     return data;
 }
@@ -97,7 +98,7 @@ function createList(inputField, elements) {
 
         for (i in elements) {
             if (typeof elements[i] == "object") {
-                var element = $('<li data-id="' + elements[i].id + '" data-label="'+ elements[i].label +'"><a>' + elements[i].label + '<div class="ripple-container"></div></a></li>').appendTo(ul);
+                var element = $('<li data-id="' + elements[i].id + '" data-label="'+ elements[i].name +'"><a>' + elements[i].name + '<div class="ripple-container"></div></a></li>').appendTo(ul);
                 element.on('click', function(event) {
                     event.stopPropagation();
 

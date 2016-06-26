@@ -3,6 +3,7 @@
 namespace LocationBundle\Controller;
 
 
+use LocationBundle\Form\CityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use LocationBundle\Entity\City;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -49,7 +50,7 @@ class CityController extends Controller
      * Finds and displays a City entity.
      *
      */
-    public function showAction(City $city)
+    public function showAction(City $city, Request $request)
     {
 
         return $this->render('city/show.html.twig', array(

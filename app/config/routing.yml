@@ -1,10 +1,21 @@
-location:
-    resource: "@LocationBundle/Resources/config/routing.yml"
-    prefix:   /rest/location/
+admin:
+    resource: "@AdminBundle/Resources/config/routing.yml"
+    prefix:   /kingdom/
 
 view:
     resource: "@ViewBundle/Resources/config/routing.yml"
     prefix:   /
 
+location:
+    resource: "@LocationBundle/Resources/config/routing.yml"
+    prefix:   /rest/location/
+
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    prefix:   /rest/user/
+
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

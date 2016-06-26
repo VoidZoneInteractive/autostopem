@@ -3,7 +3,8 @@ $(document).ready(function() {
 
     if($('.datepicker').length != 0){
         $('.datepicker').datepicker({
-            weekStart: 1
+            weekStart: 1,
+            format: 'yyyy-mm-dd'
         });
     }
 });

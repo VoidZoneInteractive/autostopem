@@ -1,0 +1,8 @@
+services:
+    app.form.type.translation:
+        class: CoreBundle\Form\Type\TranslationType
+        arguments:
+            - '@doctrine'
+            - %form_translations%
+        tags:
+            - { name: form.type }
