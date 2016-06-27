@@ -3,6 +3,7 @@ services:
         class: CoreBundle\Form\Type\TranslationType
         arguments:
             - '@doctrine'
-            - %form_translations%
+            - '@gedmo.listener.translatable'
+            - '%form_translations%'
         tags:
             - { name: form.type }

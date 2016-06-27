@@ -12,29 +12,42 @@ class CityController extends Controller
     public function newAction(Request $request)
     {
         $city = new City();
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('LocationBundle:City');
-        $city = $repository->find(2);
-//        $city->setName('Posen');
-//
-//        $city->setTranslatableLocale('de'); // change locale
-//
-//        $em->persist($city);
-//        $em->flush();
-//        exit();
+//        $em = $this->getDoctrine()->getManager();
+//        $repository = $em->getRepository('LocationBundle:City');
+//        $city = $repository->find(2);
 
-
-        $form = $this->createForm(CityType::class, $city)->createView();
+        $form = $this->createForm(CityType::class, $city, [
+            'action' => $this->generateUrl('admin_city_create'),
+        ]);
 
         return $this->render('AdminBundle:City:new.html.twig', array(
-            'form' => $form,
+            'form' => $form->createView(),
         ));
     }
 
-    public function createAction()
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function createAction(Request $request)
     {
-        return $this->render('AdminBundle:City:create.html.twig', array(
-            // ...
+        $city = new City();
+
+        $form = $this->createForm(CityType::class, $city, [
+            'action' => $this->generateUrl('admin_city_create'),
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($city);
+            $em->flush();
+        }
+
+        return $this->render('AdminBundle:City:new.html.twig', array(
+            'form' => $form->createView(),
         ));
     }
 

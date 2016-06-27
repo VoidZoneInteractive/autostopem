@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Gedmo\Translatable\TranslatableListener;
 
 class TranslationType extends AbstractType
 {
@@ -24,21 +25,50 @@ class TranslationType extends AbstractType
      */
     private $formTranslations;
 
+    private $translatableListener;
+
     /**
      * @param Registry $doctrine
+     * @param TranslatableListener $translatableListener
      * @param $formTranslations
      */
-    public function __construct(Registry $doctrine, $formTranslations)
+    public function __construct(Registry $doctrine, TranslatableListener $translatableListener, $formTranslations)
     {
         $this->doctrine = $doctrine;
         $this->formTranslations = $formTranslations;
+        $this->translatableListener = $translatableListener;
+    }
+
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $em = $this->doctrine->getManager();
+
+        $builder->addEventListener(
+            FormEvents::PRE_SUBMIT,
+            function (FormEvent $event) use ($em) {
+                $data = $event->getData();
+                $entity = $event->getForm()->getParent()->getData();
+
+                $repository = $em->getRepository('Gedmo\Translatable\Entity\Translation');
+
+                foreach ($data as $locale => $value) {
+                    if ($locale == $this->translatableListener->getDefaultLocale()) {
+                        $event->setData($value);
+                    } else {
+                        $repository->translate($entity, $event->getForm()->getName(), $locale, $value);
+                    }
+                }
+            }
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'translations' => array(),
-            'locales' => $this->formTranslations
+            'locales' => $this->formTranslations,
+            'default_locale' => null,
+            'label' => false,
         ));
     }
 
@@ -55,7 +85,6 @@ class TranslationType extends AbstractType
         $em = $this->doctrine->getManager();
         $entity = $form->getParent()->getData();
 
-
         $repository = $em->getRepository('Gedmo\Translatable\Entity\Translation');
 
         $translations = array();
@@ -66,5 +95,6 @@ class TranslationType extends AbstractType
 
         $view->vars['locales'] = $options['locales'];
         $view->vars['translations'] = $translations;
+        $view->vars['default_locale'] = $this->translatableListener->getDefaultLocale();
     }
 }

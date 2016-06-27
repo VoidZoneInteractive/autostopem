@@ -2,11 +2,10 @@
 
 namespace LocationBundle\Form;
 
-use Doctrine\DBAL\Types\FloatType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use LocationBundle\Entity\CityTranslation;
 use CoreBundle\Form\Type\TranslationType;
 
 class CityType extends AbstractType
@@ -20,10 +19,16 @@ class CityType extends AbstractType
 
         $builder
             ->add('name', TranslationType::class, array(
-                // Options
+                // attributes
             ))
             ->add('latitude')
-            ->add('longitude');
+            ->add('longitude')
+            ->add('save', SubmitType::class, array(
+                'label' => 'Save',
+                'attr' => [
+                    'class' => 'btn btn-primary',
+                ]
+            ));
     }
     
     /**
@@ -32,7 +37,7 @@ class CityType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LocationBundle\Entity\City'
+            'data_class' => 'LocationBundle\Entity\City',
         ));
     }
 }

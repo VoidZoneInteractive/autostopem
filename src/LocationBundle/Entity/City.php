@@ -16,7 +16,6 @@ use Gedmo\Translatable\Translatable;
  */
 class City implements Translatable
 {
-
     /**
      * @var int
      *

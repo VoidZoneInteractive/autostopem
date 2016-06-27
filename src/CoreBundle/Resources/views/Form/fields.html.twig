@@ -1,23 +1,28 @@
 {% use "bootstrap_3_layout.html.twig" %}
 
 {% block translation_widget -%}
+    {% spaceless %}
     {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
-
     {%- set type = 'text' -%}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>{{ name|humanize }}</strong>
+    </div>
+    <div class="panel-body">
+        {% for locale in locales %}
+            {% set value = translations[locale]['name'] is defined ? translations[locale]['name'] : value %}
+            {% set full_name = '%s[%s][%s]'|format(form.parent.vars.full_name, name, locale) %}
 
-    {{ dump(translations) }}
-    {{ dump(full_name) }}
-    {% for locale in locales %}
-        <button type="button">{{ locale }}</button>
-    {% endfor %}
-    <ul>
-    {% for locale in locales %}
-        {% set value = translations[locale]['name'] is defined ? translations[locale]['name'] : value %}
-        <li style="display: flex;">
-            <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-        </li>
-    {% endfor %}
-    </ul>
-
-    {#<input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>#}
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <span class="flag-icon flag-icon-{{ locale == 'en' ? 'gb' : locale }}"></span>
+                    </div>
+                    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+    {% endspaceless %}
 {%- endblock translation_widget %}

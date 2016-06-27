@@ -9,7 +9,6 @@ class CoreExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
-//        exit('krzaki');
         $container->setParameter('twig.form.resources', array_merge(
             array('CoreBundle:Form:fields.html.twig'),
             $container->getParameter('twig.form.resources')
