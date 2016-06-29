@@ -19,3 +19,4 @@ fos_js_routing:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    prefix:   /user/
